@@ -25,7 +25,6 @@ class Death(Scene):
 
     def enter(self):
         print("You have died! Better luck next time asshole!")
-        print("would you like to play again?")
         play_again()
 
 
@@ -127,8 +126,8 @@ class Map():
 
 def play_again():
     print("would you like to play again?")
-    print("Yes? no?")
-    answer = input("y/n? ")
+    print("Yes or No?")
+    answer = input("> ")
     if answer == 'y':
         a_game.play()
     else:
