@@ -2,13 +2,13 @@
 from sys import exit
 from random import randint
 
-class Scene():
+class Scene:
 
     def enter(self):
         print("This scene is not yet configured. Subclass it and implelent enter().")
         exit(1)
 
-class Engine():
+class Engine:
 
     def __init__(self, scene_map):
         self.scene_map = scene_map
@@ -38,7 +38,6 @@ class CentralCorridor(Scene):
         print("1. shoot")
         print("2. run")
         print("3. tell a joke")
-       
 
         action = input("> ")
 
@@ -75,6 +74,7 @@ class TheBridge(Scene):
 
     def enter(self):
         print("You have entered the endless bridge! Beware!")
+        Combat()
         return 'escape_pod'
 
 class Finished(Scene):
@@ -102,7 +102,7 @@ class EscapePod(Scene):
             return 'finished'
 
 
-class Map():
+class Map:
 
     scenes = {
             'central_corridor': CentralCorridor(),
@@ -123,19 +123,73 @@ class Map():
     def opening_scene(self):
         return self.next_scene(self.start_scene)
 
+class Player:
+    def __init__(self, health):
+        self.health = health
+
+    def get_health(self):
+        return self.health
+
+
+
+rogue = Player(100)
+
+class Weapons:
+
+    @staticmethod
+    def sword():
+        print("you strike the Gothon with your sword dealing 5 damage!")
+        sword_strike = 5
+        rogue.health -= sword_strike
+        print(rogue.health)
+
+    @staticmethod
+    def gun():
+        print("you shot the gothon for 25 damage!")
+        gun_shot = 25
+        rogue.health -= gun_shot
+        print(rogue.health)
+
+    @staticmethod
+    def knife():
+        print("you stab the Gothon for 45 damage!")
+        stab = 45
+        rogue.health -= stab
+        print(rogue.health)
+
+    
+
+def Combat():
+    print("How will you fight back?")
+    if rogue.health > 0:
+        print("choose a weapon to fight back with!")
+        print("1. Sword")
+        print("2. Gun")
+        print("3. Knife")
+        choice = input("> ")
+        if choice == '1':
+            return Weapons.sword()
+        elif choice == '2':
+            return Weapons.gun()
+        elif choice == '3':
+            return Weapons.knife()
+    return 'escape pod'
 
 def play_again():
     print("would you like to play again?")
     print("Yes or No?")
     answer = input("> ")
     if answer == 'y':
+        rogue.health = 100
         a_game.play()
     else:
         exit()
 
+
 a_map = Map('central_corridor')
 a_game = Engine(a_map)
 a_game.play()
+
 
 
 
